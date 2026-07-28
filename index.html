@@ -3,46 +3,245 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DraftOdds — Legal</title>
-<meta name="description" content="DraftOdds — the fantasy football draft coach. Privacy Policy and Terms of Use.">
-<meta name="theme-color" content="#0B0F0D">
-<meta property="og:title" content="DraftOdds — Legal">
-<meta property="og:description" content="Privacy Policy and Terms of Use for DraftOdds, the fantasy football draft coach.">
+<title>DraftOdds: know who to draft next</title>
+<meta name="description" content="A live fantasy football draft coach for iPhone. It answers the question a rankings list can't: not who is the best player, but who is the best pick for your team, right now. No account, nothing leaves your phone.">
+<meta name="theme-color" content="#0E1116">
+<meta property="og:title" content="DraftOdds: know who to draft next">
+<meta property="og:description" content="A live fantasy football draft coach for iPhone. Not who's best. Who's best for your team, right now.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://arringtonc.github.io/draftodds/">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏈</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 <style>
-  :root { --ink:#0B0F0D; --panel:#121815; --line:#222C27; --text:#EAF2EE; --muted:#9BAAA2; --green:#2CE5A0; }
-  * { box-sizing: border-box; }
-  body { margin:0; background:var(--ink); color:var(--text);
-         font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-         -webkit-font-smoothing:antialiased; }
-  .wrap { max-width:720px; margin:0 auto; padding:64px 22px 96px; }
-  .brand { font-weight:800; font-size:22px; letter-spacing:-.02em; }
-  .brand span { color:var(--green); }
-  h1 { font-size:34px; letter-spacing:-.02em; margin:28px 0 6px; }
-  p.sub { color:var(--muted); margin:0 0 32px; }
-  .cards { display:grid; gap:14px; margin-top:24px; }
-  a.card { display:block; text-decoration:none; color:var(--text);
-           background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:20px 22px; }
-  a.card:hover { border-color:var(--green); }
-  a.card b { display:block; font-size:18px; }
-  a.card small { color:var(--muted); }
-  footer { color:var(--muted); font-size:13px; margin-top:48px; }
-  footer a { color:var(--green); }
+  /* Anton is the app's own display face, so the site and the product speak the same way.
+     Colors are the app's real tokens from FantasyDraft/Views/Theme.swift. */
+  :root{
+    --ink:#0E1116; --panel:#151A22; --line:rgba(255,255,255,.09);
+    --text:#E6E9EF; --muted:#9BA3B0; --dim:#6B7280;
+    --green:#36D399; --onGreen:#06281C;
+    --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--ink);color:var(--text);
+       font:17px/1.62 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  a{color:var(--green);}
+  .w{width:min(1120px,100% - 2.6rem);margin-inline:auto;}
+
+  nav{display:flex;align-items:center;padding:22px 0;}
+  .logo{font-family:Anton,var(--sans);font-size:23px;letter-spacing:.02em;
+        color:var(--text);text-decoration:none;}
+  .logo span{color:var(--green);}
+  nav .sp{margin-left:auto;}
+  nav a.small{color:var(--muted);text-decoration:none;font-size:14.5px;margin-left:22px;}
+  nav a.small:hover{color:var(--text);}
+  @media(max-width:560px){nav a.small{margin-left:16px;font-size:13.5px;}}
+
+  /* hero: asymmetric and type-led, never a centered stack */
+  .hero{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);
+        gap:clamp(24px,5vw,68px);align-items:center;
+        padding:clamp(24px,5vw,64px) 0 clamp(46px,8vw,100px);}
+  @media(max-width:880px){.hero{grid-template-columns:1fr;}}
+  .kick{font:12px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--green);}
+  h1{font-family:Anton,var(--sans);font-weight:400;text-transform:uppercase;
+     font-size:clamp(50px,10.2vw,112px);line-height:.88;letter-spacing:-.005em;margin:20px 0 0;}
+  h1 em{font-style:normal;color:var(--green);}
+  .sub{font-size:clamp(16.5px,2vw,20px);color:var(--muted);max-width:47ch;margin:26px 0 0;}
+  .sub b{color:var(--text);font-weight:600;}
+  .cta{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-top:34px;}
+  .badge{display:inline-block;background:var(--green);color:var(--onGreen);text-decoration:none;
+         font-weight:800;font-size:16px;padding:14px 24px;border-radius:13px;line-height:1.25;}
+  .badge small{display:block;font-size:10.5px;font-weight:700;opacity:.7;
+               letter-spacing:.07em;text-transform:uppercase;}
+  .price{font:13.5px/1.5 var(--mono);color:var(--dim);margin:0;}
+
+  .shotWrap{position:relative;justify-self:center;}
+  .shotWrap::after{content:"";position:absolute;inset:14% -16% -6%;z-index:0;
+    background:radial-gradient(closest-side,rgba(54,211,153,.17),transparent 72%);}
+  .shotWrap img{position:relative;z-index:1;width:min(308px,74vw);display:block;
+    border-radius:30px;border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 46px 84px -46px #000;}
+
+  section{padding:clamp(50px,8vw,94px) 0;border-top:1px solid var(--line);}
+  .sectionKick{font:12px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--dim);}
+  h2{font-family:Anton,var(--sans);font-weight:400;text-transform:uppercase;
+     font-size:clamp(29px,5vw,50px);line-height:1.0;margin:16px 0 0;}
+  .lede{color:var(--muted);max-width:56ch;margin:20px 0 0;font-size:18px;}
+
+  .contrast{display:grid;grid-template-columns:1fr 1fr;gap:clamp(22px,4vw,54px);margin-top:44px;}
+  @media(max-width:720px){.contrast{grid-template-columns:1fr;gap:32px;}}
+  .contrast h3{font:12px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;
+               color:var(--dim);margin:0 0 14px;}
+  .contrast p{margin:0;font-size:17px;}
+  .them p{color:var(--dim);}
+  .us h3{color:var(--green);}
+  .us p{color:var(--text);}
+
+  /* staggered, so it reads as a composition rather than three identical cards */
+  .screens{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,3.2vw,44px);
+           margin-top:54px;align-items:start;}
+  @media(max-width:800px){.screens{grid-template-columns:1fr;gap:44px;max-width:330px;margin-inline:auto;}}
+  .screens figure{margin:0;}
+  .screens figure:nth-child(2){transform:translateY(30px);}
+  @media(max-width:800px){.screens figure:nth-child(2){transform:none;}}
+  .screens img{width:100%;display:block;border-radius:22px;
+               border:1px solid rgba(255,255,255,.10);box-shadow:0 30px 58px -42px #000;}
+  .screens figcaption{margin-top:16px;font-size:15px;color:var(--muted);}
+  .screens b{display:block;color:var(--text);font-weight:650;margin-bottom:3px;font-size:15.5px;}
+
+  .plan{display:grid;grid-template-columns:1fr 1fr;gap:clamp(22px,4vw,58px);margin-top:42px;}
+  @media(max-width:720px){.plan{grid-template-columns:1fr;gap:32px;}}
+  .planHead{font:12px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--dim);}
+  .pro .planHead{color:var(--green);}
+  .planPrice{font-family:Anton,var(--sans);font-size:38px;margin:11px 0 0;letter-spacing:.01em;}
+  .planPrice small{font-family:var(--sans);font-size:14px;font-weight:600;color:var(--muted);}
+  .plan ul{list-style:none;margin:16px 0 0;padding:0;}
+  .plan li{padding:9px 0 9px 26px;position:relative;font-size:16px;border-bottom:1px solid var(--line);}
+  .plan li::before{position:absolute;left:0;top:9px;font:13px/1.6 var(--mono);}
+  .free li{color:var(--muted);} .free li::before{content:"○";color:var(--dim);}
+  .pro  li{color:var(--text);}  .pro  li::before{content:"●";color:var(--green);}
+
+  .privacy{background:var(--panel);border:1px solid var(--line);border-radius:20px;
+           padding:clamp(26px,4vw,46px);}
+  .privacy h2{font-size:clamp(24px,3.6vw,36px);margin-top:0;}
+  .privacy p{color:var(--muted);max-width:60ch;margin:18px 0 0;}
+
+  footer{border-top:1px solid var(--line);}
+  .fin{display:flex;flex-wrap:wrap;gap:16px 30px;align-items:baseline;
+       padding:42px 0 62px;font-size:14.5px;color:var(--dim);}
+  .fin a{color:var(--muted);text-decoration:none;}
+  .fin a:hover{color:var(--text);}
+  .fin .sp{margin-left:auto;}
+  @media(max-width:620px){.fin .sp{margin-left:0;width:100%;}}
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="brand">Draft<span>Odds</span></div>
-    <h1>Legal</h1>
-    <p class="sub">Draft coach for fantasy football. Privacy-first, on-device.</p>
-    <div class="cards">
-      <a class="card" href="./privacy"><b>Privacy Policy →</b><small>What the app collects (spoiler: it stays on your device).</small></a>
-      <a class="card" href="./terms"><b>Terms of Use (EULA) →</b><small>License, subscription terms, disclaimers.</small></a>
-      <a class="card" href="./support"><b>Support →</b><small>Contact, FAQ, subscription and refund help.</small></a>
+
+<div class="w">
+  <nav>
+    <a class="logo" href="./">Draft<span>Odds</span></a>
+    <span class="sp"></span>
+    <a class="small" href="#how">How it works</a>
+    <a class="small" href="#price">Price</a>
+    <a class="small" href="./support">Support</a>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <p class="kick">iPhone · fantasy football</p>
+      <h1>Know who<br>to draft <em>next.</em></h1>
+      <p class="sub">
+        Every rankings app tells you who is good. On the clock, that is the wrong question.
+        DraftOdds reads <b>your roster</b>, who just came off the board, and the run happening
+        in front of you, then gives you one call: <b>take him, or wait.</b>
+      </p>
+      <div class="cta">
+        <!-- AFTER APPROVAL: swap href for the App Store URL and the label for
+             "Download on the App Store". Nothing else on this page changes. -->
+        <a class="badge" href="./support">Coming to the App Store<small>August 2026</small></a>
+        <p class="price">$24.99/year · no account · nothing leaves your phone</p>
+      </div>
     </div>
-    <footer>© 2026 DraftOdds · <a href="mailto:fantasydraftodds@yahoo.com">fantasydraftodds@yahoo.com</a></footer>
+    <div class="shotWrap">
+      <img src="img/focus.png" width="414" height="896"
+           alt="DraftOdds on the clock: REACH NOW, Kyren Williams, 11% to last to your next pick, with a DRAFT button.">
+    </div>
+  </header>
+</div>
+
+<section id="how"><div class="w">
+  <p class="sectionKick">The difference</p>
+  <h2>Not the best player.<br>The best pick.</h2>
+  <p class="lede">Those are two different players almost every round, and the gap between
+    them is where drafts are won and lost.</p>
+
+  <div class="contrast">
+    <div class="them">
+      <h3>A rankings list says</h3>
+      <p>“Here are the top 200 players, in order.” The same list for you, for the person
+      picking first, and for the person who already has four running backs. It cannot see
+      your team, and it does not change when the board does.</p>
+    </div>
+    <div class="us">
+      <h3>DraftOdds says</h3>
+      <p>“Take Breece Hall now. Five receivers just went, your tier is thin, and he has an
+      11% chance of lasting until your next pick.” Then it recalculates the moment somebody
+      else picks.</p>
+    </div>
   </div>
+
+  <div class="screens">
+    <figure>
+      <img src="img/focus.png" width="414" height="896" loading="lazy"
+           alt="The on-the-clock screen: one recommended player, the odds he lasts, and a DRAFT button.">
+      <figcaption><b>One call, with the reason</b>
+        A verb, a name, and the odds he survives to your next turn.</figcaption>
+    </figure>
+    <figure>
+      <img src="img/board.png" width="414" height="896" loading="lazy"
+           alt="The full player board, every available player scored for your roster.">
+      <figcaption><b>The whole board, scored for you</b>
+        Every player left, ranked by what he does for <em>your</em> team.</figcaption>
+    </figure>
+    <figure>
+      <img src="img/team.png" width="414" height="896" loading="lazy"
+           alt="The post-draft team screen showing a letter grade and league rank.">
+      <figcaption><b>Graded when you finish</b>
+        Where you landed in the league, and the picks that got you there.</figcaption>
+    </figure>
+  </div>
+</div></section>
+
+<section id="price"><div class="w">
+  <p class="sectionKick">Price</p>
+  <h2>One season pass.</h2>
+  <p class="lede">Watch a full draft play out before you decide anything. The coach on your
+    own draft is the paid part, and it is the whole product.</p>
+
+  <div class="plan">
+    <div class="free">
+      <p class="planHead">Free</p>
+      <p class="planPrice">$0</p>
+      <ul>
+        <li>A complete demo draft, start to finish</li>
+        <li>Consensus rankings with ADP, bye and projections</li>
+        <li>No account, no email, no sign-up</li>
+      </ul>
+    </div>
+    <div class="pro">
+      <p class="planHead">Season Pass</p>
+      <p class="planPrice">$24.99 <small>per year</small></p>
+      <ul>
+        <li>The live coach on your own draft, every round</li>
+        <li>Draft Impact on every player, ranked for your roster</li>
+        <li>Survival odds: who will still be there next turn</li>
+        <li>All eight draft strategies</li>
+        <li>Unlimited saved drafts, and a grade when you finish</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="w">
+  <div class="privacy">
+    <h2>It never asks who you are.</h2>
+    <p>No account. No login. No email address. Your drafts live on your phone and nowhere
+      else, which is why there is no “sign in” button anywhere in the app. Nothing is
+      collected and nothing is sold, because nothing is ever sent.</p>
+    <p><a href="./privacy">Read the privacy policy →</a></p>
+  </div>
+</div></section>
+
+<footer><div class="w"><div class="fin">
+  <span>© 2026 DraftOdds</span>
+  <a href="./privacy">Privacy</a>
+  <a href="./terms">Terms</a>
+  <a href="./support">Support</a>
+  <span class="sp"><a href="mailto:fantasydraftodds@yahoo.com">fantasydraftodds@yahoo.com</a></span>
+</div></div></footer>
+
 </body>
 </html>
